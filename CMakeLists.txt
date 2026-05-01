@@ -15,7 +15,9 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 add_executable(MandelbrotSet main.cpp
-        main.cpp)
+        main.cpp
+        ComplexPlane.cpp
+        ComplexPlane.h)
 target_compile_features(MandelbrotSet PRIVATE cxx_std_17)
 target_link_libraries(MandelbrotSet PRIVATE sfml-graphics sfml-audio sfml-window)
 
