@@ -1,0 +1,8 @@
+BasedOnStyle: LLVM
+
+BreakBeforeBraces: Allman
+
+# fix the stupid stupid stupid tab issue
+UseTab: Always
+IndentWidth: 4
+TabWidth: 4
