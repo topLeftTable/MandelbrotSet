@@ -10,11 +10,11 @@
 
 using namespace sf;
 
-class ComplexPlane : Drawable
+class ComplexPlane : public Drawable
 {
 public:
 	ComplexPlane(int pixelWidth, int pixelHeight);
-	const void draw(RenderTarget &target, RenderStates states);
+	void draw(RenderTarget &target, RenderStates states) const override;
 	void zoomIn();
 	void zoomOut();
 	void setCenter(Vector2i mousePixel);
