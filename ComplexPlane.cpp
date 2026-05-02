@@ -3,7 +3,6 @@
 #include <complex>
 #include <cstdint>
 #include <thread>
-#include <numbers>
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
