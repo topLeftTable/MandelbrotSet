@@ -2,6 +2,7 @@
 // Created by logandev on 5/1/26.
 //
 
+#include <cmath>
 #include "ComplexPlane.h"
 
 #include "SFML/Graphics/RenderTarget.hpp"
@@ -12,20 +13,13 @@ using namespace std;
 
 ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight)
 {
-
 	Vector2i pixelSize = {pixelWidth, pixelHeight};
 	m_pixel_size = pixelSize;
-
 	m_aspectRatio = (pixelHeight * 1.0) / (pixelWidth * 1.0);
-
 	m_plane_center = {0, 0};
-
 	m_plane_size = {BASE_WIDTH, BASE_HEIGHT * m_aspectRatio};
-
 	m_zoomCount = 0;
-
 	m_state = State::CALCULATING;
-
 	//FIXME
 	//VertexArray = Points(pixelWidth * pixelHeight);
 }
@@ -37,12 +31,20 @@ void ComplexPlane::draw(RenderTarget &target, RenderStates states) const
 
 void ComplexPlane::zoomIn()
 {
-
+	m_zoomCount++;
+	float xSize = BASE_WIDTH * (pow(BASE_ZOOM, m_zoomCount));
+	float ySize = BASE_HEIGHT * m_aspectRatio * (pow(BASE_ZOOM, m_zoomCount));
+	m_plane_size = {xSize, ySize};
+	m_state = CALCULATING;
 }
 
 void ComplexPlane::zoomOut()
 {
-
+	m_zoomCount--;
+	float xSize = BASE_WIDTH * (pow(BASE_ZOOM, m_zoomCount));
+	float ySize = BASE_HEIGHT * m_aspectRatio * (pow(BASE_ZOOM, m_zoomCount));
+	m_plane_size = {xSize, ySize};
+	m_state = CALCULATING;
 }
 
 void ComplexPlane::setCenter(Vector2i mousePixel)
