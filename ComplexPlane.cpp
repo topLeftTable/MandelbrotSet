@@ -86,5 +86,9 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8 &r, Uint8 &g, Uint8 &b)
 
 Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel)
 {
-
+	Vector2f temp;
+	temp.x = ((mousePixel.x - 0.00) / (1920.00 - 0.00)) * (m_plane_size.x) + ((m_plane_center.x - m_plane_size.y) / 2.00);
+	temp.y = ((mousePixel.y - 1080.00) / (0.00 - 1080.00)) * (m_plane_size.y) + ((m_plane_center.x - m_plane_size.y) / 2.00);
+	// might have typecasting issues idk we'll find out
+	return temp;
 }
