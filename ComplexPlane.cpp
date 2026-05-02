@@ -4,6 +4,7 @@
 
 #include "ComplexPlane.h"
 #include <cmath>
+#include <cstdint>
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -13,13 +14,12 @@ using namespace std;
 
 ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight)
 {
-	Vector2i pixelSize = {pixelWidth, pixelHeight};
-	m_pixel_size = pixelSize;
+	m_pixel_size = {pixelWidth, pixelHeight};
 	m_aspectRatio = (pixelHeight * 1.0) / (pixelWidth * 1.0);
 	m_plane_center = {0, 0};
 	m_plane_size = {BASE_WIDTH, BASE_HEIGHT * m_aspectRatio};
 	m_zoomCount = 0;
-	m_state = State::CALCULATING;
+	m_state = CALCULATING;
 	m_vArray = VertexArray(Points, pixelWidth * pixelHeight);
 }
 
@@ -49,7 +49,7 @@ void ComplexPlane::zoomOut()
 void ComplexPlane::setCenter(Vector2i mousePixel)
 {
 	m_plane_center = mapPixelToCoords(mousePixel);
-	m_state = State::CALCULATING;
+	m_state = CALCULATING;
 }
 
 void ComplexPlane::setMouseLocation(Vector2i mousePixel)
@@ -72,13 +72,79 @@ void ComplexPlane::loadText(Text &text)
 	text.setString(textStream.str());
 }
 
-void ComplexPlane::updateRender() {}
+void ComplexPlane::updateRender()
+{
+	if (m_state == CALCULATING)
+	{
+		for (int i = 0; i < m_pixel_size.y; i++) // m_pixel_size.x times y
+		{
+			for (int j = 0; j < m_pixel_size.x; j++)
+			{
+				m_vArray[j + i * m_pixel_size.x].position = {
+					static_cast<float>(j), static_cast<float>(i)};
+				const int iterations =
+					countIterations(mapPixelToCoords({j, i}));
+				uint8_t r = 0, g = 0, b = 0;
+				iterationsToRGB(iterations, r, g, b);
+				m_vArray[j + i * m_pixel_size.x].color = {r, g, b};
+			}
+		}
+		m_state = DISPLAYING;
+	}
+}
 
-int ComplexPlane::countIterations(Vector2f coord) {}
+int ComplexPlane::countIterations(Vector2f coord)
+{
+	int counter = 0;
+	for (int i = 0; i < m_vArray.getVertexCount(); i++)
+	{
+		if (i == MAX_ITER)
+			return 64;
+		if (m_vArray[i].position.x == coord.x &&
+			m_vArray[i].position.y == coord.y)
+			counter++;
+	}
+	return counter;
+}
 
 void ComplexPlane::iterationsToRGB(size_t count, Uint8 &r, Uint8 &g, Uint8 &b)
 {
-
+	if (count == MAX_ITER)
+	{
+		r = 0;
+		g = 0;
+		b = 0;
+	}
+	else if (count <= 51)
+	{
+		r = 240;
+		g = 0;
+		b = 255;
+	}
+	else if (count <= 102)
+	{
+		r = 0;
+		g = 255;
+		b = 160;
+	}
+	else if (count <= 153)
+	{
+		r = 30;
+		b = 255;
+		g = 0;
+	}
+	else if (count <= 204)
+	{
+		r = 255;
+		g = 255;
+		b = 0;
+	}
+	else
+	{
+		r = 255;
+		g = 5;
+		b = 0;
+	}
 }
 
 // Ezongle Sharbongle

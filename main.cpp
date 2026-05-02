@@ -8,10 +8,9 @@ using namespace std;
 
 int main()
 {
+	cout<<"Hello hi, we are online"<<endl;
 	const unsigned int width = VideoMode::getDesktopMode().width / 2,
 					   height = VideoMode::getDesktopMode().height / 2;
-	cout << "hello hi" << endl;
-
 	VideoMode vm(width, height);
 
 	RenderWindow window(vm, "Mandelbrot Set", Style::Default);
@@ -28,6 +27,7 @@ int main()
 	text.setPosition(20, 20);
 	text.setString("a");
 	cout << thread::hardware_concurrency() << endl;
+	cout<<"Okay we are initializing."<<endl;
 
 	while (window.isOpen())
 	{
