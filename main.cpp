@@ -9,8 +9,8 @@ using namespace std;
 int main()
 {
 	cout<<"Hello hi, we are online"<<endl;
-	const unsigned int width = VideoMode::getDesktopMode().width / 2,
-					   height = VideoMode::getDesktopMode().height / 2;
+	const unsigned int width = VideoMode::getDesktopMode().width,
+					   height = VideoMode::getDesktopMode().height;
 	VideoMode vm(width, height);
 
 	RenderWindow window(vm, "Mandelbrot Set", Style::Default);

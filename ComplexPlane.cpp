@@ -5,6 +5,7 @@
 #include "ComplexPlane.h"
 #include <cmath>
 #include <cstdint>
+#include <complex>
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -76,7 +77,7 @@ void ComplexPlane::updateRender()
 {
 	if (m_state == CALCULATING)
 	{
-		for (int i = 0; i < m_pixel_size.y; i++) // m_pixel_size.x times y
+		for (int i = 0; i < m_pixel_size.y; i++)
 		{
 			for (int j = 0; j < m_pixel_size.x; j++)
 			{
@@ -95,16 +96,15 @@ void ComplexPlane::updateRender()
 
 int ComplexPlane::countIterations(Vector2f coord)
 {
-	int counter = 0;
-	for (int i = 0; i < m_vArray.getVertexCount(); i++)
+	complex<double> c (coord.x, coord.y);
+	complex<double> z  = c;
+	int i = 0;
+	while(abs(z) < 2.0 && i < MAX_ITER)
 	{
-		if (i == MAX_ITER)
-			return 64;
-		if (m_vArray[i].position.x == coord.x &&
-			m_vArray[i].position.y == coord.y)
-			counter++;
+		z = z*z + c;
+		i++;
 	}
-	return counter;
+	return i;
 }
 
 void ComplexPlane::iterationsToRGB(size_t count, Uint8 &r, Uint8 &g, Uint8 &b)
