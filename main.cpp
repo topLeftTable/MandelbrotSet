@@ -38,7 +38,32 @@ int main()
 			{
 				window.close();
 			}
+			else if (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)
+			{
+				window.close();
+			}
+			else if (event.type == Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == Mouse::Left)
+				{
+					plane.zoomIn();
+				}
+				else if (event.mouseButton.button == Mouse::Right)
+				{
+					plane.zoomOut();
+				}
+
+				plane.setCenter({event.mouseButton.x, event.mouseButton.y});
+			}
+			else if (event.type == Event::MouseMoved)
+			{
+				plane.setMouseLocation({event.mouseButton.x, event.mouseButton.y});
+			}
 		}
+		plane.updateRender();
+		plane.loadText(text);
+		window.clear();
+		window.draw(plane);
 		window.draw(text);
 		window.display();
 	}

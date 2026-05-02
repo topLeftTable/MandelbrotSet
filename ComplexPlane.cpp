@@ -2,8 +2,8 @@
 // Created by logandev on 5/1/26.
 //
 
-#include <cmath>
 #include "ComplexPlane.h"
+#include <cmath>
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -20,8 +20,7 @@ ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight)
 	m_plane_size = {BASE_WIDTH, BASE_HEIGHT * m_aspectRatio};
 	m_zoomCount = 0;
 	m_state = State::CALCULATING;
-	//FIXME
-	//VertexArray = Points(pixelWidth * pixelHeight);
+	m_vArray = VertexArray(Points, pixelWidth * pixelHeight);
 }
 
 void ComplexPlane::draw(RenderTarget &target, RenderStates states) const
@@ -55,31 +54,27 @@ void ComplexPlane::setCenter(Vector2i mousePixel)
 
 void ComplexPlane::setMouseLocation(Vector2i mousePixel)
 {
-	m_mouseLocation = mapPixelToCoords(mousePixel);;
+	m_mouseLocation = mapPixelToCoords(mousePixel);
+	;
 }
 
 void ComplexPlane::loadText(Text &text)
 {
 	ostringstream textStream;
-	textStream<<"Mandelbrot Set"<<endl;
-	textStream<<"Center: ("<<m_plane_center.x<<','<<m_plane_center.y<<')'<<endl;
-	textStream<<"Cursor: ("<<m_mouseLocation.x<<','<<m_mouseLocation.y<<')'<<endl;
-	textStream<<"Left-click to Zoom in"<<endl;
-	textStream<<"Right-click to Zoom out"<<endl;
+	textStream << "Mandelbrot Set" << endl;
+	textStream << "Center: (" << m_plane_center.x << ',' << m_plane_center.y
+			   << ')' << endl;
+	textStream << "Cursor: (" << m_mouseLocation.x << ',' << m_mouseLocation.y
+			   << ')' << endl;
+	textStream << "Left-click to Zoom in" << endl;
+	textStream << "Right-click to Zoom out" << endl;
 
 	text.setString(textStream.str());
 }
 
-void ComplexPlane::updateRender()
-{
+void ComplexPlane::updateRender() {}
 
-}
-
-
-int ComplexPlane::countIterations(Vector2f coord)
-{
-
-}
+int ComplexPlane::countIterations(Vector2f coord) {}
 
 void ComplexPlane::iterationsToRGB(size_t count, Uint8 &r, Uint8 &g, Uint8 &b)
 {
@@ -90,8 +85,12 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8 &r, Uint8 &g, Uint8 &b)
 Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel)
 {
 	Vector2f temp;
-	temp.x = ((mousePixel.x - 0.00) / (m_pixel_size.x - 0.00)) * (m_plane_center.x) + ((m_plane_center.x - m_plane_size.y) / 2.00);
-	temp.y = ((mousePixel.y - m_pixel_size.y) / (0.00 - m_pixel_size.y)) * (m_plane_size.y) + ((m_plane_center.x - m_plane_size.y) / 2.00);
+	temp.x =
+		((mousePixel.x - 0.00) / (m_pixel_size.x - 0.00)) * (m_plane_center.x) +
+		((m_plane_center.x - m_plane_size.y) / 2.00);
+	temp.y = ((mousePixel.y - m_pixel_size.y) / (0.00 - m_pixel_size.y)) *
+				 (m_plane_size.y) +
+			 ((m_plane_center.x - m_plane_size.y) / 2.00);
 	// might have typecasting issues idk we'll find out
 	return temp;
 }
