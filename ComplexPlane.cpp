@@ -95,7 +95,8 @@ void ComplexPlane::updateRender()
 		for (int i = 0; i < numOfThreads; i++)
 		{
 			int currFloor = i * chunkSize;
-			int currCeil = (i == numOfThreads - 1) ? m_pixel_size.y : (i + 1) * chunkSize;
+			int currCeil =
+				(i == numOfThreads - 1) ? m_pixel_size.y : (i + 1) * chunkSize;
 			threads.push_back(
 				thread(&ComplexPlane::renderThread, this, currFloor, currCeil));
 		}

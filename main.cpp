@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-	cout<<"Hello hi, we are online"<<endl;
+	cout << "Hello hi, we are online" << endl;
 	const unsigned int width = VideoMode::getDesktopMode().width,
 					   height = VideoMode::getDesktopMode().height;
 	VideoMode vm(width, height);
@@ -24,7 +24,7 @@ int main()
 	text.setCharacterSize(25);
 	text.setPosition(20, 20);
 	text.setString("a");
-	cout<<"Okay we are initializing."<<endl;
+	cout << "Okay we are initializing." << endl;
 
 	while (window.isOpen())
 	{
