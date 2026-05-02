@@ -1,8 +1,6 @@
 #include "ComplexPlane.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <thread>
-
 using namespace sf;
 using namespace std;
 
@@ -26,7 +24,6 @@ int main()
 	text.setCharacterSize(25);
 	text.setPosition(20, 20);
 	text.setString("a");
-	cout << thread::hardware_concurrency() << endl;
 	cout<<"Okay we are initializing."<<endl;
 
 	while (window.isOpen())
