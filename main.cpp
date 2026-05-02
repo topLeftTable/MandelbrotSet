@@ -8,8 +8,9 @@ using namespace std;
 
 int main()
 {
-	const unsigned int width = VideoMode::getDesktopMode().width, height = VideoMode::getDesktopMode().height;
-	cout<<"hello hi"<<endl;
+	const unsigned int width = VideoMode::getDesktopMode().width, height =
+		                   VideoMode::getDesktopMode().height;
+	cout << "hello hi" << endl;
 
 	VideoMode vm(width / 2, height / 2);
 
@@ -22,7 +23,6 @@ int main()
 		{
 			if (event.type == Event::Closed)
 			{
-				// Quit the game when the window is closed
 				window.close();
 			}
 		}
