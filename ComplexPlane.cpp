@@ -6,6 +6,9 @@
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
+#include <sstream>
+
+using namespace std;
 
 ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight)
 {
@@ -44,16 +47,25 @@ void ComplexPlane::zoomOut()
 
 void ComplexPlane::setCenter(Vector2i mousePixel)
 {
+	m_plane_center = mapPixelToCoords(mousePixel);
+	m_state = State::CALCULATING;
 }
 
 void ComplexPlane::setMouseLocation(Vector2i mousePixel)
 {
-
+	m_mouseLocation = mapPixelToCoords(mousePixel);;
 }
 
 void ComplexPlane::loadText(Text &text)
 {
+	ostringstream textStream;
+	textStream<<"Mandelbrot Set"<<endl;
+	textStream<<"Center: ("<<m_plane_center.x<<','<<m_plane_center.y<<')'<<endl;
+	textStream<<"Cursor: ("<<m_mouseLocation.x<<','<<m_mouseLocation.y<<')'<<endl;
+	textStream<<"Left-click to Zoom in"<<endl;
+	textStream<<"Right-click to Zoom out"<<endl;
 
+	text.setString(textStream.str());
 }
 
 void ComplexPlane::updateRender()

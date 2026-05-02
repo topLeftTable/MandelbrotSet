@@ -1,5 +1,6 @@
 #include "ComplexPlane.h"
 #include <SFML/Graphics.hpp>
+#include <thread>
 #include<iostream>
 
 using namespace sf;
@@ -25,7 +26,8 @@ int main()
 	text.setFillColor(sf::Color::White);
 	text.setCharacterSize(25);
 	text.setPosition(20, 20);
-	text.setString("Test message");
+	text.setString("a");
+	cout<<thread::hardware_concurrency()<<endl;
 
 	while (window.isOpen())
 	{
