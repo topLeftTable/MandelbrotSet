@@ -4,8 +4,8 @@
 
 #include "ComplexPlane.h"
 #include <cmath>
-#include <cstdint>
 #include <complex>
+#include <cstdint>
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
@@ -56,7 +56,6 @@ void ComplexPlane::setCenter(Vector2i mousePixel)
 void ComplexPlane::setMouseLocation(Vector2i mousePixel)
 {
 	m_mouseLocation = mapPixelToCoords(mousePixel);
-	;
 }
 
 void ComplexPlane::loadText(Text &text)
@@ -96,12 +95,12 @@ void ComplexPlane::updateRender()
 
 int ComplexPlane::countIterations(Vector2f coord)
 {
-	complex<double> c (coord.x, coord.y);
-	complex<double> z  = c;
+	complex<double> c(coord.x, coord.y);
+	complex<double> z = c;
 	int i = 0;
-	while(abs(z) < 2.0 && i < MAX_ITER)
+	while (abs(z) < 2.0 && i < MAX_ITER)
 	{
-		z = z*z + c;
+		z = z * z + c;
 		i++;
 	}
 	return i;
@@ -147,16 +146,8 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8 &r, Uint8 &g, Uint8 &b)
 	}
 }
 
-// Ezongle Sharbongle
 Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel)
 {
-	Vector2f temp;
-	temp.x =
-		((mousePixel.x - 0.00) / (m_pixel_size.x - 0.00)) * (m_plane_center.x) +
-		((m_plane_center.x - m_plane_size.y) / 2.00);
-	temp.y = ((mousePixel.y - m_pixel_size.y) / (0.00 - m_pixel_size.y)) *
-				 (m_plane_size.y) +
-			 ((m_plane_center.x - m_plane_size.y) / 2.00);
-	// might have typecasting issues idk we'll find out
+	Vector2f temp {(static_cast<float>(m_plane_center.x - (m_plane_size.x / 2.00)) + (static_cast<float>(mousePixel.x) / m_pixel_size.x) * m_plane_size.x),(static_cast<float>(m_plane_center.y - (m_plane_size.y / 2.00)) + (static_cast<float>(mousePixel.y) / m_pixel_size.y) * m_plane_size.y)};
 	return temp;
 }
