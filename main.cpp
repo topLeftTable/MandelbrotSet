@@ -1,15 +1,15 @@
 #include "ComplexPlane.h"
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include <thread>
-#include<iostream>
 
 using namespace sf;
 using namespace std;
 
 int main()
 {
-	const unsigned int width = VideoMode::getDesktopMode().width / 2, height =
-		                   VideoMode::getDesktopMode().height / 2;
+	const unsigned int width = VideoMode::getDesktopMode().width / 2,
+					   height = VideoMode::getDesktopMode().height / 2;
 	cout << "hello hi" << endl;
 
 	VideoMode vm(width, height);
@@ -27,7 +27,7 @@ int main()
 	text.setCharacterSize(25);
 	text.setPosition(20, 20);
 	text.setString("a");
-	cout<<thread::hardware_concurrency()<<endl;
+	cout << thread::hardware_concurrency() << endl;
 
 	while (window.isOpen())
 	{
@@ -38,7 +38,34 @@ int main()
 			{
 				window.close();
 			}
+			else if (event.type == Event::KeyPressed &&
+					 event.key.code == Keyboard::Escape)
+			{
+				window.close();
+			}
+			else if (event.type == Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == Mouse::Left)
+				{
+					plane.zoomIn();
+				}
+				else if (event.mouseButton.button == Mouse::Right)
+				{
+					plane.zoomOut();
+				}
+
+				plane.setCenter({event.mouseButton.x, event.mouseButton.y});
+			}
+			else if (event.type == Event::MouseMoved)
+			{
+				plane.setMouseLocation(
+					{event.mouseButton.x, event.mouseButton.y});
+			}
 		}
+		plane.updateRender();
+		plane.loadText(text);
+		window.clear();
+		window.draw(plane);
 		window.draw(text);
 		window.display();
 	}
