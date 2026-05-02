@@ -6,7 +6,7 @@
 
 using namespace sf;
 
-const unsigned int MAX_ITER = 64;
+const unsigned int MAX_ITER = 512;
 const float BASE_WIDTH = 4.0;
 const float BASE_HEIGHT = 4.0;
 const float BASE_ZOOM = 0.5;
@@ -33,6 +33,8 @@ class ComplexPlane : public Drawable
 	int countIterations(Vector2f coord);
 	void iterationsToRGB(size_t count, Uint8 &r, Uint8 &g, Uint8 &b);
 	Vector2f mapPixelToCoords(Vector2i mousePixel);
+	double mapRange(double n, double fromLow, double fromHigh, double toLow,
+					double toHigh);
 	void renderThread(int yFloor, int yCeil);
 
 	VertexArray m_vArray;

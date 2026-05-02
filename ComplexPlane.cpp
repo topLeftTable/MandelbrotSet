@@ -123,42 +123,10 @@ int ComplexPlane::countIterations(Vector2f coord)
 
 void ComplexPlane::iterationsToRGB(size_t count, Uint8 &r, Uint8 &g, Uint8 &b)
 {
-	if (count == MAX_ITER)
-	{
-		r = 0;
-		g = 0;
-		b = 0;
-	}
-	else if (count <= 51)
-	{
-		r = 240;
-		g = 0;
-		b = 255;
-	}
-	else if (count <= 102)
-	{
-		r = 0;
-		g = 255;
-		b = 160;
-	}
-	else if (count <= 153)
-	{
-		r = 30;
-		b = 255;
-		g = 0;
-	}
-	else if (count <= 204)
-	{
-		r = 255;
-		g = 255;
-		b = 0;
-	}
-	else
-	{
-		r = 255;
-		g = 5;
-		b = 0;
-	}
+	double t = mapRange(count, 0, MAX_ITER, 0, (numbers::pi / 2));
+	r = sin(t) * 255;
+	g = sin(2 * t) * 255;
+	b = pow(cos(t), 3.00) * 255;
 }
 
 Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel)
@@ -171,4 +139,10 @@ Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel)
 		(static_cast<float>(m_plane_center.y - (m_plane_size.y / 2.00)) +
 		 (static_cast<float>(mousePixel.y) / m_pixel_size.y) * m_plane_size.y);
 	return temp;
+}
+
+double ComplexPlane::mapRange(double n, double fromLow, double fromHigh,
+							  double toLow, double toHigh)
+{
+	return ((n - fromLow) / (fromHigh - fromLow)) * (toHigh - toLow) + toLow;
 }
