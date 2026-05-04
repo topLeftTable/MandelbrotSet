@@ -13,7 +13,7 @@ Readme By WaitingKeptYouHuh
 ### CMake
 - With IDE: Click Run
 - Without IDE: run `cmake -B build` and then `cmake --build build` in the project folder directly
-### G++
+### g++
 We also supply a makefile, which can be used by running the `make` command. You will need SFML2 installed on your machine. It will not work with SFML3. CMake fixes this issue, by caching a local copy of SFML2, separate from your OS package manager.
 
 
