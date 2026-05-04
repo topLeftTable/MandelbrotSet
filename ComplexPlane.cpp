@@ -112,7 +112,7 @@ int ComplexPlane::countIterations(Vector2f coord)
 {
 	complex<double> c(coord.x, coord.y);
 	complex<double> z = c;
-	int i = 0;
+	unsigned int i = 0;
 	while (abs(z) < 2.0 && i < MAX_ITER)
 	{
 		z = z * z + c;
