@@ -96,14 +96,14 @@ void ComplexPlane::updateRender()
 		m_render_start = chrono::steady_clock::now();
 		int numOfThreads = thread::hardware_concurrency() - 1;
 		int chunkSize = m_pixel_size.y / numOfThreads;
-		vector<thread> threads;
+		thread threads[numOfThreads];
 		for (int i = 0; i < numOfThreads; i++)
 		{
 			int currFloor = i * chunkSize;
 			int currCeil =
 				(i == numOfThreads - 1) ? m_pixel_size.y : (i + 1) * chunkSize;
-			threads.push_back(
-				thread(&ComplexPlane::renderThread, this, currFloor, currCeil));
+			threads[i]
+				= thread(&ComplexPlane::renderThread, this, currFloor, currCeil);
 		}
 		for (thread &t : threads)
 		{
