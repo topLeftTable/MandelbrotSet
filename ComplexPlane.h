@@ -3,7 +3,9 @@
 
 #include "SFML/Graphics/Drawable.hpp"
 #include "SFML/Graphics/Text.hpp"
+#include <chrono>
 
+using namespace std;
 using namespace sf;
 
 const unsigned int MAX_ITER = 64;
@@ -45,6 +47,8 @@ class ComplexPlane : public Drawable
 	Vector2f m_plane_size;
 	int m_zoomCount;
 	float m_aspectRatio;
+	chrono::steady_clock::time_point m_render_start;
+	chrono::steady_clock::time_point m_render_end;
 };
 
 #endif // MANDELBROTSET_COMPLEXPLANE_H

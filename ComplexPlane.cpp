@@ -3,9 +3,11 @@
 #include <complex>
 #include <cstdint>
 #include <thread>
+#include <chrono>
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
+#include <iomanip>
 #include <sstream>
 
 using namespace std;
@@ -63,6 +65,8 @@ void ComplexPlane::loadText(Text &text)
 			   << ')' << endl;
 	textStream << "Cursor: (" << m_mouseLocation.x << ',' << m_mouseLocation.y
 			   << ')' << endl;
+	textStream<<setprecision(3)<<fixed;
+	textStream<<"Render time: "<<static_cast<float>(chrono::duration_cast<std::chrono::milliseconds>(m_render_end - m_render_start).count())/1000<<'s'<<endl;
 	textStream << "Left-click to Zoom in" << endl;
 	textStream << "Right-click to Zoom out" << endl;
 
@@ -89,6 +93,7 @@ void ComplexPlane::updateRender()
 {
 	if (m_state == CALCULATING)
 	{
+		m_render_start = chrono::steady_clock::now();
 		int numOfThreads = thread::hardware_concurrency() - 1;
 		int chunkSize = m_pixel_size.y / numOfThreads;
 		vector<thread> threads;
@@ -104,6 +109,7 @@ void ComplexPlane::updateRender()
 		{
 			t.join();
 		}
+		m_render_end = chrono::steady_clock::now();
 		m_state = DISPLAYING;
 	}
 }
