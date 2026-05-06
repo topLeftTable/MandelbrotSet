@@ -13,6 +13,8 @@ int main()
 
 	RenderWindow window(vm, "Mandelbrot Set", Style::Default);
 
+	window.setFramerateLimit(60);
+
 	ComplexPlane plane(static_cast<int>(width), static_cast<int>(height));
 
 	Font font;
